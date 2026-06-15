@@ -10,7 +10,7 @@ Automatización de pruebas con Cypress, documentación de casos de prueba y gest
 
 - Daniel Vega - daniel449@live.com.ar
 - Gabriela Bianchi - mgabibianchi@gmail.com
-- Juan Calero - marcelocalero@gmail.com
+- Juan Calero - marcelocalero5@gmail.com
 - Lourdes Villalba - vlourdes96@gmail.com
 - Sarahis Cabezas - sarahiscabezas@gmail.com
 
