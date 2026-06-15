@@ -17,9 +17,25 @@ Automatización de pruebas con Cypress, documentación de casos de prueba y gest
 ## Herramientas utilizadas
 
 - Cypress
+- Git
 - GitHub
 - Trello
 - Google Sheets
+
+## Estructura del proyecto
+
+```text
+cypress/
+├── e2e
+├── fixtures
+├── support
+│   └── commands.js
+```
+
+- **e2e**: contiene los casos de prueba automatizados.
+- **fixtures**: almacena datos de prueba en formato JSON.
+- **support/commands.js**: contiene Custom Commands reutilizables.
+```
 
 ## Enlaces
 
@@ -38,3 +54,18 @@ https://automationintesting.online/
 ## Estado del proyecto
 
 🚧 En desarrollo
+
+## Ejecución de pruebas
+
+Instalar las dependencias del proyecto:
+
+```bash
+npm install
+```
+
+Ejecutar Cypress:
+
+```bash
+npx cypress open
+```
+
