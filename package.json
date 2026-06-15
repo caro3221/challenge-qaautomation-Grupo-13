@@ -1,0 +1,23 @@
+{
+  "name": "challenge-qaautomation-2026",
+  "version": "1.0.0",
+  "description": "Proyecto final de QA Automation - Cohorte I 2026.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caro3221/challenge-qaautomation-2026.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/caro3221/challenge-qaautomation-2026/issues"
+  },
+  "homepage": "https://github.com/caro3221/challenge-qaautomation-2026#readme",
+  "devDependencies": {
+    "cypress": "^15.17.0"
+  }
+}
