@@ -141,3 +141,10 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Cypress
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+cypress.env.json
+
