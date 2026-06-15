@@ -35,7 +35,7 @@ cypress/
 - **e2e**: contiene los casos de prueba automatizados.
 - **fixtures**: almacena datos de prueba en formato JSON.
 - **support/commands.js**: contiene Custom Commands reutilizables.
-```
+  
 
 ## Enlaces
 
