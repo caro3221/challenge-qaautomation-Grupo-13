@@ -10,7 +10,7 @@ describe('TC011 - Reserva exitosa como usuario invitado - Shady Meadows B&B', ()
 
   it('Reservar habitación disponible con datos válidos', () => {
 
-    // Seleccionar fechas válidas y verificar disponibilidad
+    // Seleccionar fechas válidas
     cy.get('input')
       .eq(0)
       .clear()
@@ -30,7 +30,6 @@ describe('TC011 - Reserva exitosa como usuario invitado - Shady Meadows B&B', ()
     cy.url().should('include', 'checkin=2026-09-22')
     cy.url().should('include', 'checkout=2026-09-23')
 
-    // Abrir el formulario de reserva
     cy.contains('Reserve Now').click()
     cy.get('input[name="firstname"]').type('Pepe')
     cy.get('input[name="lastname"]').type('Gomez')
