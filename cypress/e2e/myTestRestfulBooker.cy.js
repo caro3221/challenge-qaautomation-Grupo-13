@@ -1,4 +1,4 @@
-// 3.1 Reserva exitosa como usuario invitado
+// TC011 / CASO 3.1 - Reserva exitosa como usuario invitado con datos válidos
 
 describe('TC011 - Reserva exitosa como usuario invitado - Shady Meadows B&B', () => {
 
@@ -10,39 +10,25 @@ describe('TC011 - Reserva exitosa como usuario invitado - Shady Meadows B&B', ()
 
   it('Reservar habitación disponible con datos válidos', () => {
 
-    // Seleccionar fechas válidas
-    cy.get('input')
-      .eq(0)
-      .clear()
-      .type('22/09/2026') 
-    cy.get('input')
-      .eq(1)
-      .clear()
-      .type('23/09/2026')  
-    cy.contains('Check Availability').click()
+    cy.fixture('guestUser').then((guestUser) => {
 
-    // verificar que se muestran habitaciones disponibles
-    cy.contains('Book now').should('be.visible')
+      // buscar disponibilidad
+      cy.searchAvailability('25/07/2026', '29/07/2026')
+      cy.contains('Book now').should('be.visible')
 
-    // Seleccionar una habitación disponible
-    cy.contains('Book now').first().click()
+      // seleccionar habitación disponible
+      cy.contains('Book now').first().click()
 
-    cy.url().should('include', 'checkin=2026-09-22')
-    cy.url().should('include', 'checkout=2026-09-23')
+      cy.contains('Reserve Now').click()
+      cy.fillBookingForm(guestUser)
+      cy.contains('Reserve Now').click()
 
-    cy.contains('Reserve Now').click()
-    cy.get('input[name="firstname"]').type('Pepe')
-    cy.get('input[name="lastname"]').type('Gomez')
-    cy.get('input[name="email"]').type('pepe@email.com')
-    cy.get('input[name="phone"]').type('12345678910')
+      //  mensaje de éxito
+      cy.contains('Booking Confirmed').should('be.visible')
+      cy.contains('Your booking has been confirmed for the following dates:').should('be.visible')
+      cy.contains('Return home').should('be.visible')
 
-    cy.contains('Reserve Now').click()
-
-    // Mensaje de éxito 
-    cy.contains('Booking Confirmed').should('be.visible')
-    cy.contains('Your booking has been confirmed for the following dates:').should('be.visible')
-    cy.contains('Return home').should('be.visible')
-
+    })
   })
 
 })
