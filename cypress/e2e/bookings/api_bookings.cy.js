@@ -26,7 +26,7 @@ describe("Prueba de API - Crear Reserva", () => {
 
   it("Consultar listado de reservas (GET)", function () {
     cy.intercept("GET", "**/report**").as("getBookingReport");
-    cy.loginAdmin(this.datos.admin.user, this.datos.admin.pass);
+    cy.login(this.datos.admin.user, this.datos.admin.pass);
     cy.contains("Report").click();
     cy.wait("@getBookingReport", { timeout: 10000 }).then((interception) => {
       expect(interception.response.statusCode).to.eq(200);

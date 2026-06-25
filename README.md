@@ -53,7 +53,7 @@ https://automationintesting.online/
 
 ## Estado del proyecto
 
-🚧 En desarrollo
+FINALIZADO
 
 ## Ejecución de pruebas
 
