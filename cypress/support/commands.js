@@ -47,3 +47,11 @@ Cypress.Commands.add('fillBookingForm', (guest) => {
 Cypress.Commands.add('setReactDate', { prevSubject: 'element' }, function($el, date) {
   $el.val(date).get(0).dispatchEvent(new Event('input', {bubbles: true}))
 })
+
+// buscar disponibilidad con fechas fijas
+Cypress.Commands.add('searchAvailability', (checkIn, checkOut) => {
+  cy.get('input').eq(0).clear().type(checkIn)
+  cy.get('input').eq(1).clear().type(checkOut)
+  cy.contains('Check Availability').click()
+})
+
