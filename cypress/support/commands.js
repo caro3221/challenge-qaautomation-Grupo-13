@@ -55,10 +55,3 @@ Cypress.Commands.add('searchAvailability', (checkIn, checkOut) => {
   cy.contains('Check Availability').click()
 })
 
-// completar el formulario de reserva 
-Cypress.Commands.add('fillBookingForm', (guestUser) => {
-  cy.get('input[name="firstname"]').type(guestUser.firstname)
-  cy.get('input[name="lastname"]').type(guestUser.lastname)
-  cy.get('input[name="email"]').type(guestUser.email)
-  cy.get('input[name="phone"]').type(guestUser.phone)
-})
