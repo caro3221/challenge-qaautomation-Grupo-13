@@ -1,0 +1,12 @@
+{
+  "admin": {
+    "user": "admin",
+    "pass": "password"
+  },
+  "reservaValida": {
+    "firstname": "Juan",
+    "lastname": "Testing",
+    "email": "juan@example.com",
+    "phone": "351234567890"
+  }
+}
