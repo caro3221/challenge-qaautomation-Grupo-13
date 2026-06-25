@@ -1,0 +1,24 @@
+{
+  "guest": {
+    "firstname": "Juan",
+    "lastname": "Perez",
+    "email": "JuanPerez@email.com",
+    "phone": "112233445566"
+  },
+  "branding": {
+    "name": "XAcademy Resort",
+    "logoUrl": "https://www.itsitio.com/ar/wp-content/uploads/sites/2/2024/05/XAcademy-portada.webp",
+    "description": "Resort de pruebas QA Automation",
+    "latitude": "40.416775",
+    "longitude": "-3.703790",
+    "directions": "Tomar autopista A-1, salida 15",
+    "contactName": "Juan Perez",
+    "contactPhone": "112233445566",
+    "contactEmail": "JuanPerez@email.com",
+    "line1": "Av. Siempre Viva 123",
+    "line2": "Piso 4",
+    "postTown": "Springfield",
+    "county": "Condado",
+    "postCode": "1234"
+  }
+}

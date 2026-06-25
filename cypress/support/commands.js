@@ -36,3 +36,14 @@ Cypress.Commands.add("openBookingForm", () => {
   cy.get('a.btn-primary[href*="reservation/1"]').click();
   cy.contains("Reserve Now").click({ force: true });
 });
+
+Cypress.Commands.add('fillBookingForm', (guest) => {
+  cy.get('input[name="firstname"]').clear().type(guest.firstname)
+  cy.get('input[name="lastname"]').clear().type(guest.lastname)
+  cy.get('input[name="email"]').clear().type(guest.email)
+  cy.get('input[name="phone"]').clear().type(guest.phone)
+})
+
+Cypress.Commands.add('setReactDate', { prevSubject: 'element' }, function($el, date) {
+  $el.val(date).get(0).dispatchEvent(new Event('input', {bubbles: true}))
+})
