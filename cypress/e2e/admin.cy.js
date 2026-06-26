@@ -240,7 +240,7 @@ describe('Módulo Admin', function() {
           .should('exist')
 
         // Validar en Report
-        cy.get('#reportLink').click()
+        cy.visit('https://automationintesting.online/admin/report').click()
 
         cy.contains(data.editReservation.firstname)
           .should('exist')
@@ -252,9 +252,6 @@ describe('Módulo Admin', function() {
   describe('TC023 - Editar cantidad de días', () => {
 
     beforeEach(() => {
-       cy.fixture('guestUser').then((guestUser) => {
-          cy.createReservation(guestUser, '27/06/2026', '30/06/2026')
-      })
       cy.fixture('loginData').then((data) => {
         cy.login(data.Admin.username, data.Admin.password)
       })
@@ -286,7 +283,9 @@ describe('Módulo Admin', function() {
         .eq(1)
         .should('have.value', '01/07/2026')
 
-      cy.get('#reportLink').click()
+      cy.visit('https://automationintesting.online/admin/report').click()
+
+      cy.wait(10000)
 
       cy.contains('02/07/2026')
           .should('exist')
