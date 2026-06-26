@@ -1,6 +1,18 @@
 {
+
   "Admin": {
     "username": "admin",
     "password": "password"
   }
+
+    "Admin":{
+        "username": "admin",
+        "password": "password"
+    },
+
+    "AdminInval":{
+        "username": "admin",
+        "password": "Password"
+    }
+
 }

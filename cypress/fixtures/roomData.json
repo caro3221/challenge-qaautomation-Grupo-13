@@ -1,0 +1,19 @@
+{
+    "validRoom":{
+        "type": "Twin",
+        "accessible": "true",
+        "roomPrice": "200"
+ 
+
+    },
+
+    "invalidRoom":{
+        "type": "Twin",
+        "accessible": "true",
+        "roomPrice": "costosa"
+
+    }
+}
+
+ 
+      
