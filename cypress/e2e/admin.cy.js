@@ -245,3 +245,93 @@ describe('Módulo Admin', function() {
 // tuve que crear conReserva() que itera habitaciones buscando el boton de editar y obtenerPrimeraReserva() consulta la API para encontrar un bookingId real.
 // 4- las aserciones estan al reves a proposito che, esperamos que el sistema rechace las fechas invalidas (esperamos que .confirmBookingEdit siga existiendo despues de guardar). 
 // Si el test falla, es porque el sistema acepto lo que no deberia y eso es un bug documentado. Cuando arreglen el backend estos tests van a pasar solos sin tocar codigo (en teoria)
+
+describe('TC022 - Editar reserva', () => {
+
+  beforeEach(() => {
+    cy.fixture('loginData').then((data) => {
+      cy.login(data.Admin.username, data.Admin.password)
+    })
+
+    cy.intercept('GET', '**/api/report').as('report')
+
+    cy.contains('Rooms').should('be.visible')
+  })
+
+  it('Editar nombre de reserva', () => {
+
+    cy.fixture('reservationData').then((data) => {
+
+      cy.visit('https://automationintesting.online/admin/room/1')
+
+      cy.get('.bookingEdit')
+        .first()
+        .click()
+
+      // Cambiar nombre
+      cy.get('input[name="firstname"]')
+        .clear()
+        .type(data.editReservation.firstname)
+      
+      cy.setReactCalendarDate(0, '27/06/2026')
+      cy.setReactCalendarDate(1, '30/06/2026')
+
+        
+      cy.get('.confirmBookingEdit')
+        .click({ force: true })
+
+      cy.wait(1000)
+
+      // Validar nombre en la reserva
+      cy.contains(data.editReservation.firstname)
+        .should('exist')
+
+      // Validar en Report
+      cy.get('#reportLink').click()
+
+      cy.contains(data.editReservation.firstname)
+        .should('exist')
+
+    })
+  })
+})
+
+describe('TC023 - Editar cantidad de días', () => {
+
+  beforeEach(() => {
+    cy.fixture('loginData').then((data) => {
+      cy.login(data.Admin.username, data.Admin.password)
+    })
+
+    cy.contains('Rooms').should('be.visible')
+  })
+
+  it('Aumentar checkout en 3 dias a 02/07/2026', () => {
+
+    cy.visit('https://automationintesting.online/admin/room/1')
+
+    cy.get('.bookingEdit')
+      .first()
+      .click()
+    
+    cy.setReactCalendarDate(1, '02/07/2026')
+
+    cy.get('.confirmBookingEdit')
+      .click({ force: true })
+
+    cy.wait(500)
+
+    // Volver a abrir para validar
+    cy.get('.bookingEdit')
+      .first()
+      .click()
+
+    cy.get('.react-datepicker__input-container input')
+      .eq(1)
+      .should('have.value', '01/07/2026')
+
+    cy.get('#reportLink').click()
+
+    cy.contains('Roberto').should('exist')
+  })
+})

@@ -55,3 +55,23 @@ Cypress.Commands.add('searchAvailability', (checkIn, checkOut) => {
   cy.contains('Check Availability').click()
 })
 
+
+Cypress.Commands.add('setReactCalendarDate', (inputIndex, fecha) => {
+
+  cy.get('.react-datepicker__input-container input')
+    .eq(inputIndex)
+    .then(($input) => {
+
+      const nativeSetter = Object.getOwnPropertyDescriptor(
+        window.HTMLInputElement.prototype,
+        'value'
+      ).set
+
+      nativeSetter.call($input[0], fecha)
+
+      $input[0].dispatchEvent(new Event('input', { bubbles: true }))
+      $input[0].dispatchEvent(new Event('change', { bubbles: true }))
+
+    })
+
+})
