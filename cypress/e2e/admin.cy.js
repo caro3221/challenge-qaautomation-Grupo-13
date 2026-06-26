@@ -197,94 +197,101 @@ describe('Módulo Admin', function() {
 
   describe('TC022 - Editar reserva', () => {
 
-  beforeEach(() => {
-    cy.fixture('loginData').then((data) => {
-      cy.login(data.Admin.username, data.Admin.password)
+    beforeEach(() => {
+
+        cy.fixture('guestUser').then((guestUser) => {
+          cy.createReservation(guestUser, '27/06/2026', '30/06/2026')
+      })
+      cy.fixture('loginData').then((data) => {
+        cy.login(data.Admin.username, data.Admin.password)
+      })
+
+      cy.intercept('GET', '**/api/report').as('report')
+
+      cy.contains('Rooms').should('be.visible')
     })
 
-    cy.intercept('GET', '**/api/report').as('report')
+    it('Editar nombre de reserva', () => {
 
-    cy.contains('Rooms').should('be.visible')
+      cy.fixture('reservationData').then((data) => {
+
+        cy.visit('https://automationintesting.online/admin/room/1')
+
+        cy.get('.bookingEdit')
+          .first()
+          .click()
+
+        // Cambiar nombre
+        cy.get('input[name="firstname"]')
+          .clear()
+          .type(data.editReservation.firstname)
+        
+        cy.setReactCalendarDate(0, '27/06/2026')
+        cy.setReactCalendarDate(1, '30/06/2026')
+
+          
+        cy.get('.confirmBookingEdit')
+          .click({ force: true })
+
+        cy.wait(1000)
+
+        // Validar nombre en la reserva
+        cy.contains(data.editReservation.firstname)
+          .should('exist')
+
+        // Validar en Report
+        cy.get('#reportLink').click()
+
+        cy.contains(data.editReservation.firstname)
+          .should('exist')
+
+      })
+    })
   })
 
-  it('Editar nombre de reserva', () => {
+  describe('TC023 - Editar cantidad de días', () => {
 
-    cy.fixture('reservationData').then((data) => {
+    beforeEach(() => {
+       cy.fixture('guestUser').then((guestUser) => {
+          cy.createReservation(guestUser, '27/06/2026', '30/06/2026')
+      })
+      cy.fixture('loginData').then((data) => {
+        cy.login(data.Admin.username, data.Admin.password)
+      })
+
+      cy.contains('Rooms').should('be.visible')
+    })
+
+    it('Aumentar checkout en 3 dias a 02/07/2026', () => {
 
       cy.visit('https://automationintesting.online/admin/room/1')
 
       cy.get('.bookingEdit')
         .first()
         .click()
-
-      // Cambiar nombre
-      cy.get('input[name="firstname"]')
-        .clear()
-        .type(data.editReservation.firstname)
       
-      cy.setReactCalendarDate(0, '27/06/2026')
-      cy.setReactCalendarDate(1, '30/06/2026')
+      cy.setReactCalendarDate(1, '02/07/2026')
 
-        
       cy.get('.confirmBookingEdit')
         .click({ force: true })
 
-      cy.wait(1000)
+      cy.wait(500)
 
-      // Validar nombre en la reserva
-      cy.contains(data.editReservation.firstname)
-        .should('exist')
+      // Volver a abrir para validar
+      cy.get('.bookingEdit')
+        .first()
+        .click()
 
-      // Validar en Report
+      cy.get('.react-datepicker__input-container input')
+        .eq(1)
+        .should('have.value', '01/07/2026')
+
       cy.get('#reportLink').click()
 
-      cy.contains(data.editReservation.firstname)
-        .should('exist')
-
+      cy.contains('02/07/2026')
+          .should('exist')
     })
   })
-})
-
-describe('TC023 - Editar cantidad de días', () => {
-
-  beforeEach(() => {
-    cy.fixture('loginData').then((data) => {
-      cy.login(data.Admin.username, data.Admin.password)
-    })
-
-    cy.contains('Rooms').should('be.visible')
-  })
-
-  it('Aumentar checkout en 3 dias a 02/07/2026', () => {
-
-    cy.visit('https://automationintesting.online/admin/room/1')
-
-    cy.get('.bookingEdit')
-      .first()
-      .click()
-    
-    cy.setReactCalendarDate(1, '02/07/2026')
-
-    cy.get('.confirmBookingEdit')
-      .click({ force: true })
-
-    cy.wait(500)
-
-    // Volver a abrir para validar
-    cy.get('.bookingEdit')
-      .first()
-      .click()
-
-    cy.get('.react-datepicker__input-container input')
-      .eq(1)
-      .should('have.value', '01/07/2026')
-
-    cy.get('#reportLink').click()
-
-    cy.contains('02/07/2026')
-        .should('exist')
-  })
-})
 
 
   describe('TC021 — Cancelar reserva y verificar actualización en reportes', function() {

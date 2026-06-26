@@ -75,3 +75,24 @@ Cypress.Commands.add('setReactCalendarDate', (inputIndex, fecha) => {
     })
 
 })
+
+Cypress.Commands.add('createReservation', (guestUser, checkin, checkout) => {
+
+  cy.visit('https://automationintesting.online')
+
+  cy.contains('Check Availability & Book Your Stay').scrollIntoView()
+
+  cy.searchAvailability(checkin, checkout)
+
+  cy.contains('Book now')
+    .first()
+    .click()
+
+  cy.contains('Reserve Now').click()
+
+  cy.fillBookingForm(guestUser)
+
+  cy.contains('Reserve Now').click()
+
+  cy.contains('Booking Confirmed').should('be.visible')
+})
