@@ -195,58 +195,7 @@ describe('Módulo Admin', function() {
     })
   })
 
-
-  describe('TC021 — Cancelar reserva y verificar actualización en reportes', function() {
-
-    it('TC021-API — Cancelar reserva mediante API y confirmar en reportes', function() {
-      obtenerPrimeraReserva().then(function(data) {
-        if (!data) { cy.log('No hay reservas disponibles para cancelar'); return }
-        const booking = data.booking
-        cy.request('DELETE', '/api/booking/' + booking.bookingid).then(function(resp) {
-          expect(resp.status).to.eq(202)
-          cy.contains('Report').click()
-          cy.url().should('include', '/report')
-          const nombre = booking.firstname + ' ' + booking.lastname
-          cy.contains(nombre, { timeout: 5000 }).should('not.exist')
-        })
-      })
-    })
-
-    it('TC021-UI — Cancelar reserva mediante UI y verificar en reportes', function() {
-      conReserva(function() {
-        cy.get('.detail').first().within(function() {
-          cy.get('.col-sm-2 p').first().invoke('text').as('nombre')
-          cy.get('.col-sm-2 p').eq(1).invoke('text').as('apellido')
-        })
-        cy.get('.bookingDelete', { timeout: 5000 }).should('exist')
-        cy.get('.bookingDelete').first().click()
-        cy.wait(500)
-        cy.get('@nombre').then(function(n) {
-          cy.get('@apellido').then(function(a) {
-            const nombreCompleto = n.trim() + ' ' + a.trim()
-            cy.contains('Report').click()
-            cy.url().should('include', '/report')
-            cy.contains(nombreCompleto, { timeout: 5000 }).should('not.exist')
-          })
-        })
-      })
-    })
-  })
-})
-
-
-// Estos tests validan el modulo admin (editar fechas (TC024, TC025) y cancelar reservas (TC021))
-// la app no tiene IDs faciles de usar en algunos botones y el server es compartido, asi que toco hacerlo de otra forma
-// 1- el boton de check a veces no se dejaba clickear, cypress decia que estaba cubierto por otro elemento a veces
-// tuve que usar { force: true } en el click.
-// 2- los inputs de fecha estan controlados por React, usar .type() no funcionaba porque react no detectaba el cambio.
-// tuve que crear el comando setReactDate en commands.js (setea con jQuery y dispara evento input)
-// 3- no hay forma de saber que habitacion tiene reservas porque otros usuarios las crean y borran todo el tiempo
-// tuve que crear conReserva() que itera habitaciones buscando el boton de editar y obtenerPrimeraReserva() consulta la API para encontrar un bookingId real.
-// 4- las aserciones estan al reves a proposito che, esperamos que el sistema rechace las fechas invalidas (esperamos que .confirmBookingEdit siga existiendo despues de guardar). 
-// Si el test falla, es porque el sistema acepto lo que no deberia y eso es un bug documentado. Cuando arreglen el backend estos tests van a pasar solos sin tocar codigo (en teoria)
-
-describe('TC022 - Editar reserva', () => {
+  describe('TC022 - Editar reserva', () => {
 
   beforeEach(() => {
     cy.fixture('loginData').then((data) => {
@@ -332,6 +281,59 @@ describe('TC023 - Editar cantidad de días', () => {
 
     cy.get('#reportLink').click()
 
-    cy.contains('Roberto').should('exist')
+    cy.contains('02/07/2026')
+        .should('exist')
   })
 })
+
+
+  describe('TC021 — Cancelar reserva y verificar actualización en reportes', function() {
+
+    it('TC021-API — Cancelar reserva mediante API y confirmar en reportes', function() {
+      obtenerPrimeraReserva().then(function(data) {
+        if (!data) { cy.log('No hay reservas disponibles para cancelar'); return }
+        const booking = data.booking
+        cy.request('DELETE', '/api/booking/' + booking.bookingid).then(function(resp) {
+          expect(resp.status).to.eq(202)
+          cy.contains('Report').click()
+          cy.url().should('include', '/report')
+          const nombre = booking.firstname + ' ' + booking.lastname
+          cy.contains(nombre, { timeout: 5000 }).should('not.exist')
+        })
+      })
+    })
+
+    it('TC021-UI — Cancelar reserva mediante UI y verificar en reportes', function() {
+      conReserva(function() {
+        cy.get('.detail').first().within(function() {
+          cy.get('.col-sm-2 p').first().invoke('text').as('nombre')
+          cy.get('.col-sm-2 p').eq(1).invoke('text').as('apellido')
+        })
+        cy.get('.bookingDelete', { timeout: 5000 }).should('exist')
+        cy.get('.bookingDelete').first().click()
+        cy.wait(500)
+        cy.get('@nombre').then(function(n) {
+          cy.get('@apellido').then(function(a) {
+            const nombreCompleto = n.trim() + ' ' + a.trim()
+            cy.contains('Report').click()
+            cy.url().should('include', '/report')
+            cy.contains(nombreCompleto, { timeout: 5000 }).should('not.exist')
+          })
+        })
+      })
+    })
+  })
+})
+
+
+// Estos tests validan el modulo admin (editar fechas (TC024, TC025) y cancelar reservas (TC021))
+// la app no tiene IDs faciles de usar en algunos botones y el server es compartido, asi que toco hacerlo de otra forma
+// 1- el boton de check a veces no se dejaba clickear, cypress decia que estaba cubierto por otro elemento a veces
+// tuve que usar { force: true } en el click.
+// 2- los inputs de fecha estan controlados por React, usar .type() no funcionaba porque react no detectaba el cambio.
+// tuve que crear el comando setReactDate en commands.js (setea con jQuery y dispara evento input)
+// 3- no hay forma de saber que habitacion tiene reservas porque otros usuarios las crean y borran todo el tiempo
+// tuve que crear conReserva() que itera habitaciones buscando el boton de editar y obtenerPrimeraReserva() consulta la API para encontrar un bookingId real.
+// 4- las aserciones estan al reves a proposito che, esperamos que el sistema rechace las fechas invalidas (esperamos que .confirmBookingEdit siga existiendo despues de guardar). 
+// Si el test falla, es porque el sistema acepto lo que no deberia y eso es un bug documentado. Cuando arreglen el backend estos tests van a pasar solos sin tocar codigo (en teoria)
+
