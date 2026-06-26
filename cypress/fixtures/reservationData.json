@@ -1,0 +1,9 @@
+{
+  "admin": {
+    "user": "admin",
+    "pass": "password"
+  },
+  "editReservation": {
+    "firstname": "Roberto"
+  }
+}
