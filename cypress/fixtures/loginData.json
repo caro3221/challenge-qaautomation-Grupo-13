@@ -1,4 +1,10 @@
 {
+
+  "Admin": {
+    "username": "admin",
+    "password": "password"
+  }
+
     "Admin":{
         "username": "admin",
         "password": "password"
@@ -8,4 +14,5 @@
         "username": "admin",
         "password": "Password"
     }
+
 }
